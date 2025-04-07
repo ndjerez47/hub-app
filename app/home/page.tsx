@@ -66,7 +66,7 @@ useEffect(() => {
     <div className="min-h-screen p-4 sm:p-6 bg-gray-100 flex flex-col items-center">
       <h1 className="text-2xl sm:text-3xl mb-4 sm:mb-6">HVAC Home</h1>
       <div className="w-full max-w-md sm:max-w-lg mb-4 sm:mb-6 p-4 bg-white rounded shadow">
-        <p>Logged in as: <strong>{username}</strong> ({role})</p>
+        <p>ENTRATE in as: <strong>{username}</strong> ({role})</p>
         <p>Status: <span className="text-green-500">Online</span></p>
       </div>
       <div className="w-full max-w-md sm:max-w-lg grid grid-cols-1 gap-4">
