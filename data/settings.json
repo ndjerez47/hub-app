@@ -1,1 +1,4 @@
-{"temp": 72, "occupied": false}
+{
+  "temp": 72,
+  "occupied": true
+}

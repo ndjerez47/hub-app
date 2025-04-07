@@ -1,24 +1,39 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState('');
-  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      router.push('/');
+      window.location.href = '/';
       return;
     }
-    import('jsonwebtoken').then((jwt) => {
-      const decoded = jwt.verify(token, 'llavesecreta');
-      setRole(decoded.role);
-      setUsername(decoded.username || 'Unknown');
-    }).catch(() => router.push('/'));
-  }, [router]);
+
+    // Verify token using the API
+    fetch('/api/verify', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Token verification failed');
+      }
+      return res.json();
+    })
+    .then(data => {
+      setRole(data.role);
+      setUsername(data.username || 'Unknown');
+    })
+    .catch(err => {
+      console.error('Dashboard - Verification failed:', err.message);
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    });
+  }, []);
 
   if (!role) return <div>Loading...</div>;
 
@@ -28,7 +43,7 @@ export default function Dashboard() {
       <div className="w-full max-w-md sm:max-w-lg grid grid-cols-1 gap-4 mb-4 sm:mb-6">
         {role === 'admin' && (
           <>
-            <div className="p-4 bg-white rounded shadow">Manage Users <button onClick={() => router.push('/users')} className="ml-2 p-1 bg-blue-500 text-white">Go</button></div>
+            <div className="p-4 bg-white rounded shadow">Manage Users <button onClick={() => window.location.href = '/users'} className="ml-2 p-1 bg-blue-500 text-white">Go</button></div>
             <div className="p-4 bg-white rounded shadow">System Config</div>
             <div className="p-4 bg-white rounded shadow">All Data</div>
           </>
@@ -60,13 +75,13 @@ export default function Dashboard() {
       </div>
       <div className="w-full max-w-md sm:max-w-lg flex flex-col sm:flex-row gap-4">
         <button
-          onClick={() => router.push('/home')}
+          onClick={() => window.location.href = '/home'}
           className="p-2 bg-green-500 text-white w-full sm:w-auto"
         >
           Go to Home
         </button>
         <button
-          onClick={() => { localStorage.removeItem('token'); router.push('/'); }}
+          onClick={() => { localStorage.removeItem('token'); window.location.href = '/'; }}
           className="p-2 bg-red-500 text-white w-full sm:w-auto"
         >
           Logout

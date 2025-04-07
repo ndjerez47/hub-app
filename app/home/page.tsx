@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [role, setRole] = useState(null);
@@ -8,7 +7,6 @@ export default function Home() {
   const [temp, setTemp] = useState(null);
   const [humidity, setHumidity] = useState(45); // Mock for now
   const [occupied, setOccupied] = useState(false);
-  const router = useRouter();
 
 useEffect(() => {
   console.log('Home - Starting useEffect');
@@ -16,23 +14,33 @@ useEffect(() => {
   console.log('Home - Token:', token);
   if (!token) {
     console.log('Home - No token, redirecting to /');
-    router.push('/');
+    window.location.href = '/';
     return;
   }
-  import('jsonwebtoken').then((jwt) => {
-    console.log('Home - JWT loaded');
-    try {
-      const decoded = jwt.verify(token, 'llavesecreta');
-      console.log('Home - Token decoded:', decoded);
-      setRole(decoded.role);
-      setUsername(decoded.username || 'Unknown');
-    } catch (e) {
-      console.error('Home - Token verify failed:', e.message);
-      router.push('/');
+
+  // Verify token using the API instead of client-side verification
+  console.log('Home - Verifying token via API');
+  fetch('/api/verify', {
+    headers: {
+      'Authorization': `Bearer ${token}`
     }
-  }).catch((err) => {
-    console.error('Home - JWT import failed:', err.message);
-    router.push('/');
+  })
+  .then(res => {
+    console.log('Home - Verify response status:', res.status);
+    if (!res.ok) {
+      throw new Error('Token verification failed');
+    }
+    return res.json();
+  })
+  .then(data => {
+    console.log('Home - User verified:', data);
+    setRole(data.role);
+    setUsername(data.username || 'Unknown');
+  })
+  .catch(err => {
+    console.error('Home - Verification failed:', err.message);
+    localStorage.removeItem('token');
+    window.location.href = '/';
   });
 
   console.log('Home - Fetching settings');
@@ -47,7 +55,7 @@ useEffect(() => {
       setOccupied(data.occupied);
     })
     .catch(err => console.error('Home - Settings fetch failed:', err.message));
-}, [router]);
+}, []);
   const saveSettings = async () => {
     const token = localStorage.getItem('token');
     await fetch('/api/settings', {
@@ -104,13 +112,13 @@ useEffect(() => {
       </div>
       <div className="w-full max-w-md sm:max-w-lg flex flex-col sm:flex-row gap-4 mt-4 sm:mt-6">
         <button
-          onClick={() => router.push('/dashboard')}
+          onClick={() => window.location.href = '/dashboard'}
           className="p-2 bg-blue-500 text-white w-full sm:w-auto"
         >
           Back to Dashboard
         </button>
         <button
-          onClick={() => { localStorage.removeItem('token'); router.push('/'); }}
+          onClick={() => { localStorage.removeItem('token'); window.location.href = '/'; }}
           className="p-2 bg-red-500 text-white w-full sm:w-auto"
         >
           Logout

@@ -1,29 +1,48 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function Users() {
   const [role, setRole] = useState(null);
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ username: '', password: '', role: 'enduser' });
-  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      router.push('/');
+      window.location.href = '/';
       return;
     }
-    import('jsonwebtoken').then((jwt) => {
-      const decoded = jwt.verify(token, 'llavesecreta');
-      if (decoded.role !== 'admin') router.push('/home');
-      setRole(decoded.role);
-    }).catch(() => router.push('/'));
 
-    fetch('/api/users')
-      .then(res => res.json())
-      .then(data => setUsers(data));
-  }, [router]);
+    // Verify token using the API
+    fetch('/api/verify', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Token verification failed');
+      }
+      return res.json();
+    })
+    .then(data => {
+      if (data.role !== 'admin') {
+        window.location.href = '/home';
+        return;
+      }
+      setRole(data.role);
+
+      // Fetch users after successful authentication
+      return fetch('/api/users');
+    })
+    .then(res => res.json())
+    .then(data => setUsers(data))
+    .catch(err => {
+      console.error('Users - Verification failed:', err.message);
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    });
+  }, []);
 
   const addUser = async (e) => {
     e.preventDefault();
@@ -86,7 +105,7 @@ export default function Users() {
         </ul>
       </div>
       <button
-        onClick={() => router.push('/home')}
+        onClick={() => window.location.href = '/home'}
         className="mt-4 sm:mt-6 p-2 bg-blue-500 text-white w-full sm:w-auto max-w-md sm:max-w-lg"
       >
         Back to Home

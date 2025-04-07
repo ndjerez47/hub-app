@@ -1,15 +1,13 @@
 "use client";
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 export default function Login() {
   const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('');
-  const router = useRouter();
 
   const users = ['admin', 'operator', 'mechanic', 'enduser', 'engineer'];
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Login attempt:', { username });
     try {
@@ -23,9 +21,9 @@ export default function Login() {
       if (res.ok && data.token) {
         localStorage.setItem('token', data.token);
         console.log('Token set:', data.token);
-        router.push('/home');
         console.log('Redirecting to /home');
-        setTimeout(() => window.location.href = '/home', 500);
+        // Use a single navigation method
+        window.location.href = '/home';
       } else {
         alert('Login failed: ' + (data.error || 'Unknown error'));
       }
