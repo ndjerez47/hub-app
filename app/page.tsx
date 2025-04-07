@@ -38,7 +38,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form onSubmit={handleLogin} className="p-6 bg-white rounded shadow-md">
-        <h1 className="text-2xl mb-4">HVAC Hub Login</h1>
+        <h1 className="text-2xl mb-4">ahora si</h1>
         <select
           value={username}
           onChange={(e) => setUsername(e.target.value)}
