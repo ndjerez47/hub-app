@@ -1,0 +1,7 @@
+[
+  {"id": 1, "username": "admin", "password": "$2a$10$...", "role": "admin"},
+  {"id": 2, "username": "operator", "password": "$2a$10$...", "role": "operator"},
+  {"id": 3, "username": "mechanic", "password": "$2a$10$...", "role": "mechanic"},
+  {"id": 4, "username": "user", "password": "$2a$10$...", "role": "enduser"},
+  {"id": 5, "username": "engineer", "password": "$2a$10$...", "role": "engineer"}
+]

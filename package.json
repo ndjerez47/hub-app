@@ -1,0 +1,22 @@
+{
+  "name": "hub",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "jsonwebtoken": "^9.0.2",
+    "next": "^15.2.4",
+    "react": "^19.1.0"
+  }
+}
