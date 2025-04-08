@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "role": "engineer",
+    "password": "$2a$10$XQxK4mB3MKUqS4xU7WNh5.4.Y.9Z9X8Z8X4Z8X4Z8X4Z8X4Z8X"
+  },
+  {
+    "id": "2",
+    "name": "Jane Operator",
+    "role": "operator",
+    "password": "$2a$10$XQxK4mB3MKUqS4xU7WNh5.4.Y.9Z9X8Z8X4Z8X4Z8X4Z8X4Z8X"
+  },
+  {
+    "id": "3",
+    "name": "Viewer Bob",
+    "role": "viewer",
+    "password": "$2a$10$XQxK4mB3MKUqS4xU7WNh5.4.Y.9Z9X8Z8X4Z8X4Z8X4Z8X4Z8X"
+  }
+]
