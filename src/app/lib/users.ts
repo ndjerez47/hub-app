@@ -9,22 +9,11 @@ const usersFile = path.join(process.cwd(), "src", "app", "data", "users.json");
 const defaultUsers: User[] = [
   {
     id: "1",
-    name: "John Doe",
+    name: "Admin",
     role: "engineer",
-    password: bcrypt.hashSync("engineer123", 10),
+    password: bcrypt.hashSync("admin123", 10),
   },
-  {
-    id: "2",
-    name: "Jane Operator",
-    role: "operator",
-    password: bcrypt.hashSync("operator123", 10),
-  },
-  {
-    id: "3",
-    name: "Viewer Bob",
-    role: "viewer",
-    password: bcrypt.hashSync("viewer123", 10),
-  },
+  
 ];
 
 // Load or initialize users
@@ -41,5 +30,5 @@ export async function loadUsers(): Promise<User[]> {
 
 export async function findUser(username: string): Promise<User | undefined> {
   const users = await loadUsers();
-  return users.find((u) => u.name === username);
+  return users.find((u) => u.name.toLowerCase() === username.toLowerCase());
 }
