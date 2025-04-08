@@ -1,7 +1,0 @@
-[
-  {"id": 1, "username": "admin", "password": "$2b$10$buqYPGLqsLYNAyrtF0MavOG.N1/Ev9tc/WnBHIfCdJs2jpU3US4aK", "role": "admin"},
-  {"id": 2, "username": "operator", "password": "$2b$10$VbUDfilZrNz4QnggZpwlreh9Q7w6RZsEeKa6.XmI/7vTKuKnGa32u", "role": "operator"},
-  {"id": 3, "username": "mechanic", "password": "$2b$10$w.Eb/OCG/NKys/jyjzEUbOMnS2WnFI3H3DaKi7KS7JzKSHrQy6uFC", "role": "mechanic"},
-  {"id": 4, "username": "user", "password": "$2b$10$r5WeTy6paflKmcGSJEBKDulenhbIkRgkplEjbYkO2MOwEFiGt7wXa", "role": "enduser"},
-  {"id": 5, "username": "engineer", "password": "$2b$10$1Ft4AwSfeOJf5cZHuDs/Te0AEwmJ5xiSPe3pjJmVwfY./CfzGob.e", "role": "engineer"}
-]
